@@ -35,15 +35,56 @@ void calculate_net_salary(float gross_salary, float *net_salary) {
     *net_salary = gross_salary - tax - med_insurance - mat_leave - soc_security;
 }
 
-int main() {
-    float gross_salary, net_salary;
+
+//function to validate the gross salary input and return error when input is less
+int validateGrossSalary(float *gross_salary){
+    char input[100];
+    float temp;
 
     printf("Enter the gross salary: ");
-    scanf("%f", &gross_salary);
+    if (fgets(input, sizeof(input), stdin) == NULL) {
+        printf("Error: Invalid input. \n");
+        return 0;
+    }
 
-    calculate_net_salary(gross_salary, &net_salary);
+    if (sscanf(input, "%f", &temp) != 1){
+        printf("Error: invalid input. Please enter a number.\n");
+        return 0;
+    }
 
+    if (temp < 0.0) {
+        printf("Error: Gross salary cannot be negative.\n");
+        return 0;
+    }
+
+    *gross_salary = temp;
+    return 1;
+}
+
+// int main() {
+//     float gross_salary, net_salary;
+
+//     printf("Enter the gross salary: ");
+//     scanf("%f", &gross_salary);
+
+//     calculate_net_salary(gross_salary, &net_salary);
+
+//     printf("The net salary is: %.2f\n", net_salary);
+
+//     return 0;
+// }
+
+
+int main() {
+    float gross_salary;
+
+    while (!validateGrossSalary(&gross_salary))
+    {   /* Keep asking for input */
+    }
+
+    float net_salary; calculate_net_salary(gross_salary, &net_salary);
     printf("The net salary is: %.2f\n", net_salary);
 
     return 0;
+    
 }
